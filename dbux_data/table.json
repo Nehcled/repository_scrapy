@@ -1,0 +1,313 @@
+{
+  "repository": "dbux",
+  "owner": "Domiii",
+  "issues": [
+    {
+      "title": "Post-processing for `arguments`",
+      "issue_url": "https://github.com/Domiii/dbux/issues/542",
+      "count_of_pr": 1,
+      "TotalLineChanged": 106
+    },
+    {
+      "title": "After loading from file, `DataNodesBy*IdIndex` are empty",
+      "issue_url": "https://github.com/Domiii/dbux/issues/541",
+      "count_of_pr": 1,
+      "TotalLineChanged": 857
+    },
+    {
+      "title": "PracticeSessionView: add inline \"Debug\" button to \"Run\" buttons",
+      "issue_url": "https://github.com/Domiii/dbux/issues/536",
+      "count_of_pr": 1,
+      "TotalLineChanged": 124
+    },
+    {
+      "title": "Bug: ValueNode does not render correctly for `UpdateExpression`",
+      "issue_url": "https://github.com/Domiii/dbux/issues/534",
+      "count_of_pr": 1,
+      "TotalLineChanged": 1
+    },
+    {
+      "title": "Bag of bugs",
+      "issue_url": "https://github.com/Domiii/dbux/issues/522",
+      "count_of_pr": 2,
+      "TotalLineChanged": 82
+    },
+    {
+      "title": "PDP should handle new RDP data",
+      "issue_url": "https://github.com/Domiii/dbux/issues/494",
+      "count_of_pr": 1,
+      "TotalLineChanged": 85
+    },
+    {
+      "title": "[Dbux PathwaysDataProvider] Failed to load from log file: Error: Unable to process PDP.collections.userActions: could not find application of trace (applicationId=1). allApplications=[]",
+      "issue_url": "https://github.com/Domiii/dbux/issues/492",
+      "count_of_pr": 1,
+      "TotalLineChanged": 303
+    },
+    {
+      "title": "Call graph bugs",
+      "issue_url": "https://github.com/Domiii/dbux/issues/485",
+      "count_of_pr": 2,
+      "TotalLineChanged": 39
+    },
+    {
+      "title": "PracticeSession improvements",
+      "issue_url": "https://github.com/Domiii/dbux/issues/479",
+      "count_of_pr": 2,
+      "TotalLineChanged": 171
+    },
+    {
+      "title": "In ExecutionsTDNode: clicking on GroupNode should take me to the relevant location",
+      "issue_url": "https://github.com/Domiii/dbux/issues/472",
+      "count_of_pr": 1,
+      "TotalLineChanged": 605
+    },
+    {
+      "title": "Optimize Call Graph to deal with 50+k nodes per root",
+      "issue_url": "https://github.com/Domiii/dbux/issues/471",
+      "count_of_pr": 1,
+      "TotalLineChanged": 164
+    },
+    {
+      "title": "Fix \"[Dbux]\" tag in messages",
+      "issue_url": "https://github.com/Domiii/dbux/issues/460",
+      "count_of_pr": 2,
+      "TotalLineChanged": 181
+    },
+    {
+      "title": "Call Graph: Load/render roots (and each root's subtree) separately",
+      "issue_url": "https://github.com/Domiii/dbux/issues/458",
+      "count_of_pr": 1,
+      "TotalLineChanged": 349
+    },
+    {
+      "title": "[Call Graph] in `ContextNode`: split `nodeToggleBtn` into two",
+      "issue_url": "https://github.com/Domiii/dbux/issues/455",
+      "count_of_pr": 2,
+      "TotalLineChanged": 264
+    },
+    {
+      "title": "Call Graph: Bugs with async function continuation",
+      "issue_url": "https://github.com/Domiii/dbux/issues/445",
+      "count_of_pr": 1,
+      "TotalLineChanged": 100
+    },
+    {
+      "title": "should parse fspaths in UserAction to relative path on serialize",
+      "issue_url": "https://github.com/Domiii/dbux/issues/442",
+      "count_of_pr": 1,
+      "TotalLineChanged": 177
+    },
+    {
+      "title": "In Express#8: After reloading a Practice Log, empty string is rendered as `undefined` and also as `null`",
+      "issue_url": "https://github.com/Domiii/dbux/issues/440",
+      "count_of_pr": 1,
+      "TotalLineChanged": 62
+    },
+    {
+      "title": "Fix pathways: Steps not merged correctly + color maybe wrong sometimes?",
+      "issue_url": "https://github.com/Domiii/dbux/issues/438",
+      "count_of_pr": 1,
+      "TotalLineChanged": 177
+    },
+    {
+      "title": "Small Pathways enhancement",
+      "issue_url": "https://github.com/Domiii/dbux/issues/424",
+      "count_of_pr": 1,
+      "TotalLineChanged": 21
+    },
+    {
+      "title": "Log all important user actions",
+      "issue_url": "https://github.com/Domiii/dbux/issues/411",
+      "count_of_pr": 1,
+      "TotalLineChanged": 423
+    },
+    {
+      "title": "Add upload logs button to PracticeView",
+      "issue_url": "https://github.com/Domiii/dbux/issues/405",
+      "count_of_pr": 1,
+      "TotalLineChanged": 354
+    },
+    {
+      "title": "checkSystem: make sure it always runs, if bash is missing or Node has incorrect version",
+      "issue_url": "https://github.com/Domiii/dbux/issues/404",
+      "count_of_pr": 1,
+      "TotalLineChanged": 3
+    },
+    {
+      "title": "add Q (question) + I (info) buttons for annotating traces",
+      "issue_url": "https://github.com/Domiii/dbux/issues/398",
+      "count_of_pr": 1,
+      "TotalLineChanged": 148
+    },
+    {
+      "title": "try/catch (in some cases) causes resolveCallIds to fail",
+      "issue_url": "https://github.com/Domiii/dbux/issues/389",
+      "count_of_pr": 1,
+      "TotalLineChanged": 539
+    },
+    {
+      "title": "Fix dbux-practice buttons",
+      "issue_url": "https://github.com/Domiii/dbux/issues/380",
+      "count_of_pr": 1,
+      "TotalLineChanged": 16
+    },
+    {
+      "title": "Fix survey",
+      "issue_url": "https://github.com/Domiii/dbux/issues/378",
+      "count_of_pr": 1,
+      "TotalLineChanged": 20
+    },
+    {
+      "title": "Enable loading of log files from other machines",
+      "issue_url": "https://github.com/Domiii/dbux/issues/377",
+      "count_of_pr": 2,
+      "TotalLineChanged": 218
+    },
+    {
+      "title": "Add multi-language support",
+      "issue_url": "https://github.com/Domiii/dbux/issues/372",
+      "count_of_pr": 1,
+      "TotalLineChanged": 403
+    },
+    {
+      "title": "Prepare first experiments",
+      "issue_url": "https://github.com/Domiii/dbux/issues/360",
+      "count_of_pr": 1,
+      "TotalLineChanged": 205
+    },
+    {
+      "title": "\"Go to next execution of the same trace\" errors if there is no such execution",
+      "issue_url": "https://github.com/Domiii/dbux/issues/358",
+      "count_of_pr": 1,
+      "TotalLineChanged": 4
+    },
+    {
+      "title": "Store dbux-runtime data with sessions + testruns",
+      "issue_url": "https://github.com/Domiii/dbux/issues/351",
+      "count_of_pr": 1,
+      "TotalLineChanged": 142
+    },
+    {
+      "title": "Inside of PracticeSession add a new button: \"Run without Dbux\"",
+      "issue_url": "https://github.com/Domiii/dbux/issues/350",
+      "count_of_pr": 1,
+      "TotalLineChanged": 52
+    },
+    {
+      "title": "Code tagging system",
+      "issue_url": "https://github.com/Domiii/dbux/issues/349",
+      "count_of_pr": 2,
+      "TotalLineChanged": 87
+    },
+    {
+      "title": "Tracing: nested property in object intializer not traced",
+      "issue_url": "https://github.com/Domiii/dbux/issues/344",
+      "count_of_pr": 2,
+      "TotalLineChanged": 44
+    },
+    {
+      "title": "Collect DB read + write statistics",
+      "issue_url": "https://github.com/Domiii/dbux/issues/332",
+      "count_of_pr": 1,
+      "TotalLineChanged": 150
+    },
+    {
+      "title": "Improve PracticeSession",
+      "issue_url": "https://github.com/Domiii/dbux/issues/331",
+      "count_of_pr": 1,
+      "TotalLineChanged": 44
+    },
+    {
+      "title": "[eslint] Fix  webpack (background process) -> testBugCommand timing",
+      "issue_url": "https://github.com/Domiii/dbux/issues/327",
+      "count_of_pr": 1,
+      "TotalLineChanged": 128
+    },
+    {
+      "title": "TerminalWrapper._run does not handle _dbux_run errors properly",
+      "issue_url": "https://github.com/Domiii/dbux/issues/322",
+      "count_of_pr": 1,
+      "TotalLineChanged": 114
+    },
+    {
+      "title": "Improve `checkSystem.js` + per-project + per-bug system requirements",
+      "issue_url": "https://github.com/Domiii/dbux/issues/320",
+      "count_of_pr": 1,
+      "TotalLineChanged": 45
+    },
+    {
+      "title": "Error button does not do anything",
+      "issue_url": "https://github.com/Domiii/dbux/issues/316",
+      "count_of_pr": 1,
+      "TotalLineChanged": 11
+    },
+    {
+      "title": "Call Graph button renders based on the state of *any* Webview, not just Call Graph",
+      "issue_url": "https://github.com/Domiii/dbux/issues/314",
+      "count_of_pr": 1,
+      "TotalLineChanged": 8
+    },
+    {
+      "title": "Always ask for Tutorial to start on activate",
+      "issue_url": "https://github.com/Domiii/dbux/issues/304",
+      "count_of_pr": 1,
+      "TotalLineChanged": 272
+    },
+    {
+      "title": "Tutorial state never gets saved, always restarts after restarting VSCode",
+      "issue_url": "https://github.com/Domiii/dbux/issues/299",
+      "count_of_pr": 1,
+      "TotalLineChanged": 5
+    },
+    {
+      "title": "Do not actually activate Dbux or try to install it, unless user starts using it",
+      "issue_url": "https://github.com/Domiii/dbux/issues/298",
+      "count_of_pr": 1,
+      "TotalLineChanged": 360
+    },
+    {
+      "title": "Add a \"Dbux: Show output channel\" command",
+      "issue_url": "https://github.com/Domiii/dbux/issues/296",
+      "count_of_pr": 1,
+      "TotalLineChanged": 15
+    },
+    {
+      "title": "protect `db._replay` against race conditions from multiple VSCode instances",
+      "issue_url": "https://github.com/Domiii/dbux/issues/293",
+      "count_of_pr": 1,
+      "TotalLineChanged": 559
+    },
+    {
+      "title": "Basic dialog system (for tutorial + feedback)",
+      "issue_url": "https://github.com/Domiii/dbux/issues/288",
+      "count_of_pr": 2,
+      "TotalLineChanged": 647
+    },
+    {
+      "title": "Sometimes call graph cannot be re-opened",
+      "issue_url": "https://github.com/Domiii/dbux/issues/283",
+      "count_of_pr": 1,
+      "TotalLineChanged": 21
+    },
+    {
+      "title": "\"Highlight object traces in callgraph\" is broken",
+      "issue_url": "https://github.com/Domiii/dbux/issues/278",
+      "count_of_pr": 1,
+      "TotalLineChanged": 3
+    },
+    {
+      "title": "Navigation: Stepping to \"Next Parent\" is inaccurate in case of nested CallExpression",
+      "issue_url": "https://github.com/Domiii/dbux/issues/277",
+      "count_of_pr": 1,
+      "TotalLineChanged": 33
+    },
+    {
+      "title": "After running a sample program 3 or 4 times, it says: ApplicationSet busy",
+      "issue_url": "https://github.com/Domiii/dbux/issues/276",
+      "count_of_pr": 1,
+      "TotalLineChanged": 107
+    }
+  ],
+  "count_of_issue": 51
+}
