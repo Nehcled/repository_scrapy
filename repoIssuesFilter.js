@@ -38,6 +38,13 @@ let checkRateState = async () => {
 		await sleep(await core.data.rate.reset * 1000 - Date.now() + 1000);
 	}
 }
+let checkSearchState = async () => {
+	const core = await octokit.request('/rate_limit');
+	if (await core.data.resources.search.remaining == 0) {
+		console.log("API search limit exceeded! reset will in GMT+8 : " + new Date(await core.data.resources.search.reset * 1000).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' }));
+		await sleep(await core.data.resources.search.reset * 1000 - Date.now() + 1000);
+	}
+}
 
 
 let Promise_allBatched = (() => {
@@ -132,7 +139,7 @@ let Promise_allBatched = (() => {
 			}
 
 			results.push.apply(results, res);
-			console.log('Finished batch: ' + results.length + '/' + arr.length);
+			// console.log('Finished batch: ' + results.length + '/' + arr.length);
 
 			if (end === arr.length) break;
 			start = end;
@@ -144,11 +151,11 @@ let Promise_allBatched = (() => {
 })();
 
 
-let getRepoIssues = async (owner, repo, qualifier = { state: "" }) => {
-	const fileName = `${repo}_data/issues.json`;
+export let getRepoIssues = async (owner, repo, condition = { state: "", quantity: 0 }) => {
+	const fileName = `repo_scrapy_data/${repo}_data/issues.json`;
 
 	if (fs.existsSync(`./${fileName}`)) {
-		console.log(`Repostory:${repo}'s issues data exist.`);
+		console.log(`Repostory:"${repo}" issues data exist.`);
 		return JSON.parse(fs.readFileSync(`./${fileName}`, 'utf-8'));
 	}
 
@@ -156,33 +163,52 @@ let getRepoIssues = async (owner, repo, qualifier = { state: "" }) => {
 
 	await checkRateState();
 
+	let loadedDataSize = 0;
+
 	const closedIssues = await octokit.paginate('/repos/{owner}/{repo}/issues', {
 		owner: owner,
 		repo: repo,
-		state: qualifier.state,
+		state: condition.state,
+		per_page: 100,
 		mediaType: {
 			previews: [
 				'mockingbird'
 			]
 		}
+	}, (response, done) => {
+		const realIssues = response.data.filter((issue) => !issue.pull_request);
+		const newDataSize = condition.quantity ? Math.min(condition.quantity - loadedDataSize, realIssues.length) : realIssues.length;
+		// console.log("responseLength:",response.data.length);
+
+		loadedDataSize += newDataSize;
+		// console.log("loaded data size:",loadedDataSize);
+
+		if (loadedDataSize >= condition.quantity) {
+			done();
+		}
+
+		return realIssues.slice(0, newDataSize);
 	});
-	const realIssues = closedIssues.filter((issue) => !issue.pull_request);
+	// console.log(closedIssues.length);
+	// const realIssues = closedIssues.filter((issue) => !issue.pull_request);
+	// console.log(realIssues.length);
 
 	const absFileName = path.join(__dirname, fileName);
-	fs.mkdirSync(`${repo}_data`, { recursive: true });
-	fs.writeFileSync(absFileName, JSON.stringify(realIssues, null, 2));
+	fs.mkdirSync(`repo_scrapy_data/${repo}_data`, { recursive: true });
+	fs.writeFileSync(absFileName, JSON.stringify(closedIssues, null, 2));
 	console.log("Issues load sucessfal.");
 
-	return realIssues;
+	return closedIssues;
+	// return realIssues;
 }
 
 
 
 let getIssuesWithEvent = async (owner, repo, issues, dataSize = 0) => {
-	const fileName = `${repo}_data/issues_with_events.json`;
+	const fileName = `repo_scrapy_data/${repo}_data/issues_with_events.json`;
 
 	if (fs.existsSync(`./${fileName}`)) {
-		console.log(`Repostory:${repo}'s issues with events data exist.`);
+		console.log(`Repostory:"${repo}" issues with events data exist.`);
 		return JSON.parse(fs.readFileSync(`./${fileName}`, 'utf-8'));
 	}
 
@@ -200,7 +226,9 @@ let getIssuesWithEvent = async (owner, repo, issues, dataSize = 0) => {
 
 	const promises = await Promise_allBatched(issues.map((issue) =>
 		async () => {
-			console.log("counter:", ++counter, ++inflightQueries);
+			++counter;
+			++inflightQueries;
+			// console.log("counter:", ++counter, ++inflightQueries);
 			try {
 				const res = await octokit.rest.issues.listEventsForTimeline({
 					owner: owner,
@@ -226,7 +254,7 @@ let getIssuesWithEvent = async (owner, repo, issues, dataSize = 0) => {
 	const issuesWithEvents = promises.map((promise) => promise.result);
 
 	const absFileName = path.join(__dirname, fileName);
-	fs.mkdirSync(`${repo}_data`, { recursive: true });
+	fs.mkdirSync(`repo_scrapy_data/${repo}_data`, { recursive: true });
 	fs.writeFileSync(absFileName, JSON.stringify(issuesWithEvents, null, 2));
 	console.log("Issues with events load sucessful!");
 
@@ -235,10 +263,10 @@ let getIssuesWithEvent = async (owner, repo, issues, dataSize = 0) => {
 
 
 let getIssuesHasPr_pullRequestUrls = (owner, repo, issuesWithEvents) => {
-	const fileName = `${repo}_data/IssuesHasPr_and_prUrlList.json`;
+	const fileName = `repo_scrapy_data/${repo}_data/IssuesHasPr_and_prUrlList.json`;
 
 	if (fs.existsSync(`./${fileName}`)) {
-		console.log(`Repostory:${repo}'s issues has pull request & urls data exist.`);
+		console.log(`Repostory:"${repo}" issues has pull request & urls data exist.`);
 		return JSON.parse(fs.readFileSync(`./${fileName}`, 'utf-8'));
 	}
 
@@ -247,7 +275,7 @@ let getIssuesHasPr_pullRequestUrls = (owner, repo, issuesWithEvents) => {
 		issueWithEvents.prEvents = issueWithEvents.events.filter((event) => event.source?.issue.pull_request);
 		// console.log(issueWithEvents.prEvents);
 		for (const prEvent of issueWithEvents.prEvents) {
-			const  issue  = prEvent.source.issue;
+			const issue = prEvent.source.issue;
 			prUrlSet.add(`/repos/${issue.repository.owner.login}/${issue.repository.name}/pulls/${issue.number}`);
 		}
 		return issueWithEvents.prEvents.length;
@@ -256,17 +284,17 @@ let getIssuesHasPr_pullRequestUrls = (owner, repo, issuesWithEvents) => {
 	const prUrlList = Array.from(prUrlSet);
 
 	const absFileName = path.join(__dirname, fileName);
-	fs.mkdirSync(`${repo}_data`, { recursive: true });
+	fs.mkdirSync(`repo_scrapy_data/${repo}_data`, { recursive: true });
 	fs.writeFileSync(absFileName, JSON.stringify({ issuesHasPr: issuesHasPr, prUrlList: prUrlList }, null, 2));
 
 	return { issuesHasPr: issuesHasPr, prUrlList: prUrlList };
 }
 
 let getMergedPrs = async (owner, repo, prUrlList, dataSize = 0) => {
-	const fileName = `${repo}_data/merged_pull_requests.json`;
+	const fileName = `repo_scrapy_data/${repo}_data/merged_pull_requests.json`;
 
 	if (fs.existsSync(`./${fileName}`)) {
-		console.log(`Repostory:${repo}'s merged pull requests data exist.`);
+		console.log(`Repostory:"${repo}" merged pull requests data exist.`);
 		return JSON.parse(fs.readFileSync(`./${fileName}`, 'utf-8'));
 	}
 
@@ -283,7 +311,9 @@ let getMergedPrs = async (owner, repo, prUrlList, dataSize = 0) => {
 
 	const promises = await Promise_allBatched(prUrlList.map((url) =>
 		async () => {
-			console.log("counter:", ++counter, ++inflightQueries);
+			++counter;
+			++inflightQueries;
+			// console.log("counter:", ++counter, ++inflightQueries);
 			try {
 				const res = await octokit.rest.pulls.get(url);
 
@@ -300,25 +330,24 @@ let getMergedPrs = async (owner, repo, prUrlList, dataSize = 0) => {
 	// console.log(JSON.stringify(promises,null,2));
 
 	const mergedPrs = promises.filter((promise) => promise.result?.data.base.repo.name === repo && promise.result?.data.merged).map((promise) => [promise.result.data.number, promise.result]);
-	
+
 	const absFileName = path.join(__dirname, fileName);
-	fs.mkdirSync(`${repo}_data`, { recursive: true });
+	fs.mkdirSync(`repo_scrapy_data/${repo}_data`, { recursive: true });
 	fs.writeFileSync(absFileName, JSON.stringify(mergedPrs, null, 2));
 	console.log("Mereged pull request load sucessful!");
 
 	return mergedPrs;
 }
 
-
-export default async function repoIssuesFilter(owner, repository){
+export default async function repoIssuesFilter(owner, repository, quantity = 0) {
 	// const owner = "Domiii";
 	// const repository = "dbux";
 
-	const issues = await getRepoIssues(owner, repository, { state: "closed" });
+	const issues = await getRepoIssues(owner, repository, { state: "closed", quantity: quantity });
 	const issuesWithEvents = await getIssuesWithEvent(owner, repository, issues, 100);
 	const { issuesHasPr, prUrlList } = await getIssuesHasPr_pullRequestUrls(owner, repository, issuesWithEvents);
 	const mergedPrs = await getMergedPrs(owner, repository, prUrlList, 100);
-	
+
 	const mergedPrsSet = new Map(mergedPrs);
 	const lineChangedQualifier = 1000;
 	// console.log(mergedPrsSet);
@@ -329,8 +358,8 @@ export default async function repoIssuesFilter(owner, repository){
 		return issue.prs.length && issue.TotalLineChanged <= lineChangedQualifier;
 	})
 
-	const finalFileName = path.join(__dirname, `${repository}_data/filter_result.json`);
-	fs.mkdirSync(`${repository}_data`, { recursive: true });
+	const finalFileName = path.join(__dirname, `repo_scrapy_data/${repository}_data/filter_result.json`);
+	fs.mkdirSync(`repo_scrapy_data/${repository}_data`, { recursive: true });
 	fs.writeFileSync(finalFileName, JSON.stringify(final, null, 2));
 
 	//show table
@@ -349,9 +378,9 @@ export default async function repoIssuesFilter(owner, repository){
 		count_of_issue: final.length
 	}
 
-	const tableFileName = path.join(__dirname, `${repository}_data/table.json`);
+	const tableFileName = path.join(__dirname, `repo_scrapy_data/${repository}_data/table.json`);
 	fs.writeFileSync(tableFileName, JSON.stringify(table, null, 2));
-	console.log(table);
+	return Promise.resolve(table?true:false);
 }
 
-repoIssuesFilter("Domiii","dbux");
+// repoIssuesFilter("Domiii", "dbux", 150);

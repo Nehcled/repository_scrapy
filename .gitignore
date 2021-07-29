@@ -1,2 +1,7 @@
 node_modules
+
+# environment variable
 .env
+
+#scrapy data
+repo_scrapy_data
